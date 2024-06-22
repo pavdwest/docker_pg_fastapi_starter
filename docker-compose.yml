@@ -1,5 +1,5 @@
 services:
-  DATABASE_host:
+  database_host:
     image: postgres:16-alpine
     restart: always
     expose:
@@ -14,7 +14,7 @@ services:
       # Expose on different port to prevent conflict with local
       - '6543:5432'
     volumes:
-      - DATABASE_host_data:/var/lib/postgresql/data/
+      - database_host_data:/var/lib/postgresql/data/
 
   pgadmin:
     image: dpage/pgadmin4
@@ -29,7 +29,7 @@ services:
 
   backend:
     depends_on:
-      - DATABASE_host
+      - database_host
     build: ./services/backend
     working_dir: /backend/app
     restart: always
@@ -51,7 +51,7 @@ services:
       - /backend/app/.ignore
 
 volumes:
-  DATABASE_host_data:
+  database_host_data:
     driver: local
   pgadmin-data:
     driver: local
