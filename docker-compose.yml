@@ -1,0 +1,57 @@
+services:
+  DATABASE_host:
+    image: postgres:16-alpine
+    restart: always
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+      - POSTGRES_HOST_AUTH_METHOD=scram-sha-256
+      - POSTGRES_USER=${DATABASE_HOST_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_HOST_PASSWORD}
+      - POSTGRES_PORT=5432
+    ports:
+      # Expose on different port to prevent conflict with local
+      - '6543:5432'
+    volumes:
+      - DATABASE_host_data:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+  backend:
+    depends_on:
+      - DATABASE_host
+    build: ./services/backend
+    working_dir: /backend/app
+    restart: always
+    ports:
+      - '8000:8000'
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+      - PYTHONDONTWRITEBYTECODE=1
+      - PROJECT_NAME=Project
+      - DATABASE_HOST_NAME=DATABASE_host
+      - DATABASE_HOST_ALIAS=DATABASE_HOST
+      - DATABASE_HOST_PORT=5432
+      - DATABASE_HOST_USERNAME=${DATABASE_HOST_USERNAME}
+      - DATABASE_HOST_PASSWORD=${DATABASE_HOST_PASSWORD}
+      - DATABASE_NAME=project_shared
+    command: uvicorn src.main:app --host=0.0.0.0 --port=8000 --reload --log-level 'debug'
+    volumes:
+      - ./services/backend/app:/backend/app
+      - /backend/app/.ignore
+
+volumes:
+  DATABASE_host_data:
+    driver: local
+  pgadmin-data:
+    driver: local

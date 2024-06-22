@@ -1,0 +1,20 @@
+import os
+
+
+# Project
+PROJECT_NAME: str                   = os.environ.get('PROJECT_NAME')
+SUPPORT_EMAIL: str                  = os.environ.get('SUPPORT_EMAIL')
+SYSADMIN_EMAIL: str                 = os.environ.get('SYSADMIN_EMAIL')
+SYSADMIN_PASSWORD: str              = os.environ.get('SYSADMIN_PASSWORD')
+
+# Database
+DATABASE_HOST_NAME: str      = os.environ.get('DATABASE_HOST_NAME')
+DATABASE_HOST_PORT: int      = os.environ.get('DATABASE_HOST_PORT')
+DATABASE_HOST_USERNAME: str  = os.environ.get('DATABASE_HOST_USERNAME')
+DATABASE_HOST_PASSWORD: str  = os.environ.get('DATABASE_HOST_PASSWORD')
+DATABASE_NAME: str           = os.environ.get('DATABASE_NAME')
+DATABASE_URL: str            = f"postgresql://{DATABASE_HOST_USERNAME}:{DATABASE_HOST_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_HOST_PORT}/{DATABASE_NAME}"
+DATABASE_URL_SYNC: str       = f"postgresql+psycopg2://{DATABASE_HOST_USERNAME}:{DATABASE_HOST_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_HOST_PORT}/{DATABASE_NAME}"
+DATABASE_URL_ASYNC: str      = f"postgresql+asyncpg://{DATABASE_HOST_USERNAME}:{DATABASE_HOST_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_HOST_PORT}/{DATABASE_NAME}"
+DATABASE_RETRY_LIMIT: str           = 12
+DATABASE_RETRY_BACKOFF_SECONDS: str = 5

@@ -1,0 +1,9 @@
+loguru
+fastapi[all]
+uvicorn[standard]
+watchfiles==0.21.0
+asyncpg
+psycopg2-binary
+psycopg[binary, pool]
+sqlalchemy[asyncio]
+sqlalchemy_utils
