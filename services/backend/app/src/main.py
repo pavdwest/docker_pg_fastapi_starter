@@ -6,7 +6,6 @@ from src.logging.service import logger
 from src import config
 from src.app import init_app
 from src.database.service import db
-from src.modules.home.routes import router as home_router
 
 
 # Init db
@@ -25,7 +24,7 @@ async def lifespan(app: FastAPI):
     logger.info('Startup...')
     yield
     logger.info('Shutdown...')
-    # await db.close()
+    await db.shutdown()
 
 
 # Create app instance

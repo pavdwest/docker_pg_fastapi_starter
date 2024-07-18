@@ -3,7 +3,7 @@
 A dockerised stack containing the following components:
 
 * FastAPI backend
-* Postgres 15 database
+* Postgres database
 * SQLAlchemy ORM (Async)
 * Alembic Migrations
 * Pydantic Validations

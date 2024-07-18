@@ -66,9 +66,6 @@ class DatabaseBind:
         self.BaseModel = BaseModel
         self.friendly_name = f"{host.name}/{name}"
 
-        from src.logging.service import logger
-        logger.warning(host.password)
-
         common_parms = {
             'username': host.username,
             'password': host.password,
